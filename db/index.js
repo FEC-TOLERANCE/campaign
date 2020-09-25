@@ -13,12 +13,12 @@ const campaignSchema = new mongoose.Schema({
   risks: String
 });
 
-const pledgeOwnerSchema = new mongoose.Schema({
-  itemId: Number,
+const projectOwnerSchema = new mongoose.Schema({
   name: String,
-  firstCreated: Date,
-  numberBacked: Number,
-  aboutMe: String
+  created: Number,
+  backed: Number,
+  aboutMe: String,
+  projects: [Number]
 });
 
 const pledgeOptionsSchema = new mongoose.Schema({
@@ -36,5 +36,40 @@ const pledgeOptionsSchema = new mongoose.Schema({
 });
 
 const Campaign = mongoose.model('Campaign', campaignSchema);
-const PledgeOwner = mongoose.model('Pledge Owner', pledgeOwnerSchema);
+const ProjectOwner = mongoose.model('Project Owner', projectOwnerSchema);
 const PledgeOptions = mongoose.model('Pledge Options', pledgeOptionsSchema);
+
+var addCampaign = (obj) => {
+  var newCampaign = new Campaign({
+    itemId: obj.itemId,
+    story: obj.story,
+    risks: obj.risks
+  });
+
+  return newCampaign.save();
+}
+
+var emptyCampaigns = () => {
+  return Campaign.deleteMany({});
+}
+
+var addProjectOwner = (obj) => {
+  var newOwner = new ProjectOwner({
+    name: obj.name,
+    created: obj.created,
+    backed: obj.backed,
+    aboutMe: obj.aboutMe,
+    projects: obj.projects
+  });
+
+  return newOwner.save();
+}
+
+var emptyProjectOwners = () => {
+  return ProjectOwner.deleteMany({});
+}
+
+module.exports.addCampaign = addCampaign;
+module.exports.emptyCampaigns = emptyCampaigns;
+module.exports.addProjectOwner = addProjectOwner;
+module.exports.emptyProjectOwners = emptyProjectOwners;
