@@ -56,5 +56,53 @@ function generateProjectOwners() {
     });
 }
 
+function generatePledgeOptions() {
+  var options = [];
+
+  return db.emptyPledgeOptions()
+    .then(() => {
+      for (var i = 1; i <= 100; i++) {
+        var option = {
+          itemId: i,
+          options: generateOptions()
+        }
+
+        options.push(db.addPledgeOption(option));
+      }
+
+      return Promise.all(options)
+        .then(() => {
+          console.log('Saved pledge options');
+        });
+    });
+}
+
+function generateOptions() {
+  var options = [];
+  var shipsAnywhere = [true, false];
+
+  for (var i = 1; i <= 4; i++) {
+    var option = {
+      tier: Math.floor(Math.random() * 1000),
+      reward: faker.lorem.sentence(),
+      rewardDetail: [],
+      backers: Math.floor(Math.random() * 20)
+    }
+
+    for (var j = 0; j < 3; j++) {
+      option.rewardDetail.push(faker.lorem.words());
+    }
+
+    option.estimatedDelivery = `${Math.floor(Math.random() * 10 + 2020)}-${Math.floor(Math.random() * 12 + 1)}-${Math.floor(Math.random() * 27 + 1)}`;
+
+    option.shippingLocation = shipsAnywhere[Math.floor(Math.random() * 2 + 1)];
+
+    options.push(option);
+  }
+
+  return options;
+}
+
 generateCampaigns();
 generateProjectOwners();
+generatePledgeOptions();

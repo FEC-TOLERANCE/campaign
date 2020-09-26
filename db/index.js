@@ -27,7 +27,7 @@ const pledgeOptionsSchema = new mongoose.Schema({
     {
       tier: Number,
       reward: String,
-      rewardDetail: String,
+      rewardDetail: [String],
       estimatedDelivery: Date,
       shippingLocation: String,
       backers: Number
@@ -69,7 +69,22 @@ var emptyProjectOwners = () => {
   return ProjectOwner.deleteMany({});
 }
 
+var addPledgeOption = (obj) => {
+  var newPledgeOptions = new PledgeOptions({
+    itemId: obj.itemId,
+    options: obj.options
+  });
+
+  return newPledgeOptions.save();
+}
+
+var emptyPledgeOptions = () => {
+  return PledgeOptions.deleteMany({});
+}
+
 module.exports.addCampaign = addCampaign;
 module.exports.emptyCampaigns = emptyCampaigns;
 module.exports.addProjectOwner = addProjectOwner;
 module.exports.emptyProjectOwners = emptyProjectOwners;
+module.exports.addPledgeOption = addPledgeOption;
+module.exports.emptyPledgeOptions = emptyPledgeOptions;
