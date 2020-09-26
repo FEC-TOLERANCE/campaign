@@ -17,10 +17,7 @@ function generateCampaigns() {
         campaigns.push(db.addCampaign(campaign));
       }
 
-      return Promise.all(campaigns)
-        .then(() => {
-          console.log('Saved campaigns');
-        });
+      return Promise.all(campaigns);
     });
 }
 
@@ -49,10 +46,7 @@ function generateProjectOwners() {
         owners.push(db.addProjectOwner(owner));
       }
 
-      return Promise.all(owners)
-        .then(() => {
-          console.log('Saved project owners');
-        });
+      return Promise.all(owners);
     });
 }
 
@@ -70,10 +64,7 @@ function generatePledgeOptions() {
         options.push(db.addPledgeOption(option));
       }
 
-      return Promise.all(options)
-        .then(() => {
-          console.log('Saved pledge options');
-        });
+      return Promise.all(options);
     });
 }
 
@@ -103,6 +94,13 @@ function generateOptions() {
   return options;
 }
 
-generateCampaigns();
-generateProjectOwners();
-generatePledgeOptions();
+generateCampaigns()
+  .then(() => {
+    return generateProjectOwners();
+  })
+  .then(() => {
+    return generatePledgeOptions();
+  })
+  .then(() => {
+    process.exit();
+  });

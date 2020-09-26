@@ -9,7 +9,8 @@
   },
   "scripts": {
     "react-dev": "webpack -d --watch",
-    "start": "nodemon server/server.js"
+    "start": "nodemon server/server.js",
+    "load-data": "node server/scripts/dummy-data.js"
   },
   "dependencies": {
     "express": "^4.17.1",
