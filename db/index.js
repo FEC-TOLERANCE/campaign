@@ -30,7 +30,7 @@ const pledgeOptionsSchema = new mongoose.Schema({
       rewardDetail: [String],
       estimatedDelivery: Date,
       shippingLocation: String,
-      backers: Number
+      pledgeBackers: Number
     }
   ]
 });
@@ -39,52 +39,61 @@ const Campaign = mongoose.model('Campaign', campaignSchema);
 const ProjectOwner = mongoose.model('Project Owner', projectOwnerSchema);
 const PledgeOptions = mongoose.model('Pledge Options', pledgeOptionsSchema);
 
-var addCampaign = (obj) => {
-  var newCampaign = new Campaign({
+const addCampaign = (obj) => {
+  let newCampaign = new Campaign({
     itemId: obj.itemId,
     story: obj.story,
     risks: obj.risks
+  })
+  .save()
+  .catch((err) => {
+    console.log('Error with saving campaign', err);
   });
-
-  return newCampaign.save();
 }
 
-var emptyCampaigns = () => {
+const emptyCampaigns = () => {
   return Campaign.deleteMany({});
 }
 
-var addProjectOwner = (obj) => {
-  var newOwner = new ProjectOwner({
+const addProjectOwner = (obj) => {
+  let newOwner = new ProjectOwner({
     name: obj.name,
     created: obj.created,
     backed: obj.backed,
     aboutMe: obj.aboutMe,
     projects: obj.projects
+  })
+  .save()
+  .catch((err) => {
+    console.log('Error with saving project owner', err);
   });
-
-  return newOwner.save();
 }
 
-var emptyProjectOwners = () => {
+const emptyProjectOwners = () => {
   return ProjectOwner.deleteMany({});
 }
 
-var addPledgeOption = (obj) => {
-  var newPledgeOptions = new PledgeOptions({
+const addPledgeOption = (obj) => {
+  let newPledgeOptions = new PledgeOptions({
     itemId: obj.itemId,
     options: obj.options
   });
 
-  return newPledgeOptions.save();
+  return newPledgeOptions.save()
+  .catch((err) => {
+    console.log('Error with saving pledge options', err);
+  });
 }
 
-var emptyPledgeOptions = () => {
+const emptyPledgeOptions = () => {
   return PledgeOptions.deleteMany({});
 }
 
-module.exports.addCampaign = addCampaign;
-module.exports.emptyCampaigns = emptyCampaigns;
-module.exports.addProjectOwner = addProjectOwner;
-module.exports.emptyProjectOwners = emptyProjectOwners;
-module.exports.addPledgeOption = addPledgeOption;
-module.exports.emptyPledgeOptions = emptyPledgeOptions;
+module.exports = {
+  addCampaign,
+  emptyCampaigns,
+  addProjectOwner,
+  emptyProjectOwners,
+  addPledgeOption,
+  emptyPledgeOptions
+}

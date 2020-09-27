@@ -2,11 +2,11 @@ const faker = require('faker');
 const db = require('../../db');
 
 function generateCampaigns() {
-  var campaigns = [];
+  let campaigns = [];
   return db.emptyCampaigns()
     .then(() => {
-      for (var i = 1; i <= 100; i++) {
-        var campaign = {
+      for (let i = 1; i <= 100; i++) {
+        let campaign = {
           itemId: i
         };
 
@@ -22,21 +22,21 @@ function generateCampaigns() {
 }
 
 function generateProjectOwners() {
-  var owners = [];
-  var names = ['John Dryden', 'Samuel Pepys', 'John Bunyan', 'John Locke', 'Isaac Newton', 'Samuel Butler', 'John Wilmot', 'Aphra Behn', 'William Congreve', 'Mary Astell', 'Daniel Defoe', 'Anne Finch', 'Henry Fielding', 'Matthew Prior', 'Stephen Duck', 'Mary Collier', 'Mary Barber', 'Mary Jones', 'Lawrence Sterne', 'Thomas Chatterton'];
+  let owners = [];
+  const names = ['John Dryden', 'Samuel Pepys', 'John Bunyan', 'John Locke', 'Isaac Newton', 'Samuel Butler', 'John Wilmot', 'Aphra Behn', 'William Congreve', 'Mary Astell', 'Daniel Defoe', 'Anne Finch', 'Henry Fielding', 'Matthew Prior', 'Stephen Duck', 'Mary Collier', 'Mary Barber', 'Mary Jones', 'Lawrence Sterne', 'Thomas Chatterton'];
 
   return db.emptyProjectOwners()
     .then(() => {
-      for (var i = 1; i <= 20; i++) {
-        var owner = {
-          name: names[i],
+      for (let i = 1; i <= names.length; i++) {
+        let owner = {
+          name: names[i - 1],
           created: Math.floor(Math.random() * 5),
           backed: Math.floor(Math.random() * 5),
           aboutMe: faker.lorem.paragraph(),
           projects: []
         }
 
-        var j = (i * 5) - 4;
+        let j = (i * 5) - 4;
 
         while (j <= i * 5) {
           owner.projects.push(j);
@@ -51,12 +51,12 @@ function generateProjectOwners() {
 }
 
 function generatePledgeOptions() {
-  var options = [];
+  let options = [];
 
   return db.emptyPledgeOptions()
     .then(() => {
-      for (var i = 1; i <= 100; i++) {
-        var option = {
+      for (let i = 1; i <= 100; i++) {
+        let option = {
           itemId: i,
           options: generateOptions()
         }
@@ -69,18 +69,18 @@ function generatePledgeOptions() {
 }
 
 function generateOptions() {
-  var options = [];
-  var shipsAnywhere = [true, false];
+  let options = [];
+  const shipsAnywhere = [true, false];
 
-  for (var i = 1; i <= 4; i++) {
-    var option = {
+  for (let i = 1; i <= 4; i++) {
+    let option = {
       tier: Math.floor(Math.random() * 1000),
       reward: faker.lorem.sentence(),
       rewardDetail: [],
-      backers: Math.floor(Math.random() * 20)
+      pledgeBackers: Math.floor(Math.random() * 20)
     }
 
-    for (var j = 0; j < 3; j++) {
+    for (let j = 0; j < 3; j++) {
       option.rewardDetail.push(faker.lorem.words());
     }
 
@@ -103,4 +103,7 @@ generateCampaigns()
   })
   .then(() => {
     process.exit();
+  })
+  .catch((err) => {
+    console.log('Error with loading database', err);
   });
