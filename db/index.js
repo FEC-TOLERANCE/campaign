@@ -32,7 +32,12 @@ const emptyCampaigns = () => {
   return Campaign.deleteMany({});
 }
 
+const fetchCampaign = (itemId) => {
+  return Campaign.findOne({itemId: itemId});
+}
+
 module.exports = {
   addCampaign,
-  emptyCampaigns
+  emptyCampaigns,
+  fetchCampaign
 }
