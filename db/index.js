@@ -9,8 +9,8 @@ db.once('open', function() {
 
 const campaignSchema = new mongoose.Schema({
   itemId: Number,
-  story: String,
-  risks: String
+  story: [String],
+  risks: [String]
 });
 
 const Campaign = mongoose.model('Campaign', campaignSchema);
