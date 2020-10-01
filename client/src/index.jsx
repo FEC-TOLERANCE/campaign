@@ -8,7 +8,7 @@ class Campaign extends React.Component {
 
   render() {
     return (
-    <p>hello</p>
+      <p>campaign</p>
     )
   }
 }

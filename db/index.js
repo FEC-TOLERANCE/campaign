@@ -9,8 +9,8 @@ db.once('open', function() {
 
 const campaignSchema = new mongoose.Schema({
   itemId: Number,
-  story: String,
-  risks: String
+  story: [String],
+  risks: [String]
 });
 
 const Campaign = mongoose.model('Campaign', campaignSchema);
@@ -32,7 +32,12 @@ const emptyCampaigns = () => {
   return Campaign.deleteMany({});
 }
 
+const fetchCampaign = (itemId) => {
+  return Campaign.findOne({itemId: itemId});
+}
+
 module.exports = {
   addCampaign,
-  emptyCampaigns
+  emptyCampaigns,
+  fetchCampaign
 }
